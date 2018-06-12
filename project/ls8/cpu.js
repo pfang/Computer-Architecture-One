@@ -2,6 +2,10 @@
  * LS-8 v2.0 emulator skeleton code
  */
 
+ const LDI = 0b10011001;
+ const PRN = 0b01000011;
+ const HLT = 0b00000001
+
 /**
  * Class for simulating a simple Computer (CPU & memory)
  */
@@ -86,13 +90,35 @@ class CPU {
         // outlined in the LS-8 spec.
 
         // !!! IMPLEMENT ME
+        switch(IR) {
+            case LDI:
+                // set the value in a register
+                this.reg[operandA] = operandB;
+                this.PC += 3; // next instruction
+                break;
 
+            case PRN:
+                console.log(this.reg[operandA]);
+                this.PC += 2;
+                break;
+
+            case HLT:
+                this.stopClock();
+                this.PC += 1;
+                break;
+
+        default:
+            console.log("unknown instruction: " + IR.toString(2));
+            this.stopClock();
+            return;
+        }
         // Increment the PC register to go to the next instruction. Instructions
         // can be 1, 2, or 3 bytes long. Hint: the high 2 bits of the
         // instruction byte tells you how many bytes follow the instruction byte
         // for any particular instruction.
         
         // !!! IMPLEMENT ME
+        const operandCount = (IR >> 6);    
     }
 }
 
