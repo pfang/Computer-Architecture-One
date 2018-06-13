@@ -61,7 +61,7 @@ class CPU {
         switch (op) {
             case 'MUL':
                 // !!! IMPLEMENT ME
-                return regA = regA * regB;
+                this.reg[regA] = (this.reg[regB] * this.reg[regA]) & 0xff;
                 break;
         }
     }
@@ -96,22 +96,21 @@ class CPU {
             case LDI:
                 // set the value in a register
                 this.reg[operandA] = operandB;
-                this.PC += 3; // next instruction
+                //this.PC += 3; // next instruction
                 break;
 
             case PRN:
                 console.log(this.reg[operandA]);
-                this.PC += 2;
+                //this.PC += 2;
                 break;
 
             case HLT:
                 this.stopClock();
-                this.PC += 1;
+                //this.PC += 1;
                 break;
 
             case MUL:
-                this.reg[operandA] = this.alu("MUL", this.reg[operandA], this.reg[operandB]);
-                this.PC += 3;
+                this.alu("MUL", operandA, operandB);
                 break;
 
         default:
