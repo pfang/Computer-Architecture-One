@@ -10,6 +10,8 @@
  const POP = 0b01001100;
  const CMP = 0b10100000;
  const JMP = 0b01010000;
+ const JEQ = 0b01010001;
+ const JNE = 0b01010010;
  const SP = 7;
 
 /**
@@ -162,6 +164,24 @@ class CPU {
                 this.PC = operandA;
                 break;
 
+            case JEQ:
+                if (this.E) {
+                this.PC = this.reg[operandA];
+            } 
+                else {
+                this.PC += 2;
+             }
+             break;
+            
+            case JNE:
+                if (!this.PC) {
+                this.PC = this.reg[operandA]; 
+               
+            }  
+                else {
+                this.PC += 2;
+            }
+            break;
 
         default:
             console.log("unknown instruction: " + IR.toString(2));
