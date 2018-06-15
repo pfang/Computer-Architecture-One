@@ -9,6 +9,7 @@
  const PUSH = 0b01001101;
  const POP = 0b01001100;
  const CMP = 0b10100000;
+ const JMP = 0b01010000;
  const SP = 7;
 
 /**
@@ -129,18 +130,6 @@ class CPU {
                 this.ram.write(this.reg[SP], this.reg[operandA]);
             break;
 
-            case CMP:
-                if (regA === regB) {
-                this.E = 1;
-            }
-                if (regA < regB) {
-                this.L = 1;
-            }
-                if (regA > regB) {
-                this.G = 1;
-            }
-                break;
-
         //     CALL(operand) {
         //         this._push(this.PC + 2);
         //         this.PC = this.reg[operand];
@@ -156,6 +145,23 @@ class CPU {
                 this.reg[operandA] = this.ram.read(this.reg[SP]);
                 this.reg[SP]++;
             break;
+
+            case CMP:
+                if (regA === regB) {
+                this.E = 1;
+            }
+                if (regA < regB) {
+                this.L = 1;
+            }
+                if (regA > regB) {
+                this.G = 1;
+            }
+            break;
+
+            case JMP:
+                this.PC = operandA;
+                break;
+
 
         default:
             console.log("unknown instruction: " + IR.toString(2));
