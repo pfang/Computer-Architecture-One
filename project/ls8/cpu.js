@@ -8,6 +8,7 @@
  const MUL = 0b10101010;
  const PUSH = 0b01001101;
  const POP = 0b01001100;
+ const CMP = 0b10100000;
  const SP = 7;
 
 /**
@@ -27,6 +28,11 @@ class CPU {
         
         // Special-purpose registers
         this.PC = 0; // Program Counter
+
+        // flags
+        this.E = 0; //equal
+        this.L = 0; //less than
+        this.G = 0; //greater than
     }
     
     /**
@@ -123,6 +129,28 @@ class CPU {
                 this.ram.write(this.reg[SP], this.reg[operandA]);
             break;
 
+            case CMP:
+                if (regA === regB) {
+                this.E = 1;
+            }
+                if (regA < regB) {
+                this.L = 1;
+            }
+                if (regA > regB) {
+                this.G = 1;
+            }
+                break;
+
+        //     CALL(operand) {
+        //         this._push(this.PC + 2);
+        //         this.PC = this.reg[operand];
+        
+        //     }
+        //  _push(value) {
+        //         this.SP--;
+        //         this.ram.write(this.reg[this.SP], value);
+        //         this.pcAdvance = false;
+        //     }
 
             case POP:
                 this.reg[operandA] = this.ram.read(this.reg[SP]);
